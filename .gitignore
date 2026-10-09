@@ -1,0 +1,13 @@
+.env
+*.pem
+data/*
+!data/.gitkeep
+*.csv
+!tests/fixtures/*.csv
+*.db
+__pycache__/
+.venv/
+.pytest_cache/
+.ruff_cache/
+.DS_Store
+.vscode/
