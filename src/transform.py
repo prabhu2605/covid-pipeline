@@ -28,7 +28,17 @@ def to_daily_counts(df: pd.DataFrame) -> pd.DataFrame:
     return out.reset_index(drop=True)
 
 
+
 def top_countries_by_confirmed(raw_df: pd.DataFrame, n: int = 10) -> pd.DataFrame:
     latest = raw_df.sort_values("Date").groupby("Country", as_index=False).tail(1)
     top = latest.sort_values("Confirmed", ascending=False).head(n)
     return top[["Country", "Confirmed", "Deaths"]].reset_index(drop=True)
+
+
+def global_daily_totals(daily_counts: pd.DataFrame) -> pd.DataFrame:
+    return (
+        daily_counts.groupby("Date", as_index=False)["new_cases"]
+        .sum()
+        .rename(columns={"new_cases": "global_new_cases"})
+    )
+
