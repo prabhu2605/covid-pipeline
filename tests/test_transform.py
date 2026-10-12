@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from src.transform import to_daily_counts
+from src.transform import to_daily_counts, top_countries_by_confirmed
 
 RAW = pd.DataFrame({
     "Date": ["2022-01-01", "2022-01-02", "2022-01-03", "2022-01-04"] * 2,
@@ -28,3 +28,9 @@ def test_rolling_average_uses_available_days():
     testland = out[out["Country"] == "Testland"].reset_index(drop=True)
     # new_cases are 100, 20, 0, 15 -> mean of 4 days = 33.75 -> 33.8
     assert testland["new_cases_7d_avg"].iloc[-1] == pytest.approx(33.8)
+
+
+def test_top_countries_ranks_by_latest_confirmed():
+    top = top_countries_by_confirmed(RAW, n=2)
+    assert top.iloc[0]["Country"] == "Testland"
+    assert top.iloc[0]["Confirmed"] == 130

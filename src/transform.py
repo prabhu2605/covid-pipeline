@@ -26,3 +26,9 @@ def to_daily_counts(df: pd.DataFrame) -> pd.DataFrame:
     out = df[["Date", "Country", "new_cases", "new_deaths", "new_cases_7d_avg"]].copy()
     out["Date"] = out["Date"].astype(str)
     return out.reset_index(drop=True)
+
+
+def top_countries_by_confirmed(raw_df: pd.DataFrame, n: int = 10) -> pd.DataFrame:
+    latest = raw_df.sort_values("Date").groupby("Country", as_index=False).tail(1)
+    top = latest.sort_values("Confirmed", ascending=False).head(n)
+    return top[["Country", "Confirmed", "Deaths"]].reset_index(drop=True)
