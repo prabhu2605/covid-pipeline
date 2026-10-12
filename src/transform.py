@@ -15,7 +15,14 @@ def to_daily_counts(df: pd.DataFrame) -> pd.DataFrame:
 
     df["new_cases"] = df["new_cases"].clip(lower=0)
     df["new_deaths"] = df["new_deaths"].clip(lower=0)
-    
-    out = df[["Date", "Country", "new_cases", "new_deaths"]].copy()
+
+# 7-day rolling average smooths day-of-week reporting noise.
+    df["new_cases_7d_avg"] = (
+        df.groupby("Country")["new_cases"]
+        .transform(lambda s: s.rolling(7, min_periods=1).mean())
+        .round(1)
+    )
+
+    out = df[["Date", "Country", "new_cases", "new_deaths", "new_cases_7d_avg"]].copy()
     out["Date"] = out["Date"].astype(str)
     return out.reset_index(drop=True)

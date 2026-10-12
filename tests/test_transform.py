@@ -1,4 +1,5 @@
 import pandas as pd
+import pytest
 
 from src.transform import to_daily_counts
 
@@ -21,3 +22,9 @@ def test_negative_correction_is_clipped_to_zero():
     out = to_daily_counts(RAW)
     day = out[(out["Country"] == "Testland") & (out["Date"] == "2022-01-03")]
     assert day["new_cases"].iloc[0] == 0
+
+def test_rolling_average_uses_available_days():
+    out = to_daily_counts(RAW)
+    testland = out[out["Country"] == "Testland"].reset_index(drop=True)
+    # new_cases are 100, 20, 0, 15 -> mean of 4 days = 33.75 -> 33.8
+    assert testland["new_cases_7d_avg"].iloc[-1] == pytest.approx(33.8)
