@@ -1,0 +1,9 @@
+Date,Country,Confirmed,Recovered,Deaths
+2022-01-01,Testland,100,0,2
+2022-01-02,Testland,120,0,3
+2022-01-03,Testland,115,0,3
+2022-01-04,Testland,130,0,4
+2022-01-01,Otherland,50,0,1
+2022-01-02,Otherland,80,0,1
+2022-01-03,Otherland,95,0,2
+2022-01-04,Otherland,110,0,2
