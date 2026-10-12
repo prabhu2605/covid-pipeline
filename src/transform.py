@@ -26,3 +26,11 @@ def to_daily_counts(df: pd.DataFrame) -> pd.DataFrame:
     out = df[["Date", "Country", "new_cases", "new_deaths", "new_cases_7d_avg"]].copy()
     out["Date"] = out["Date"].astype(str)
     return out.reset_index(drop=True)
+
+
+def global_daily_totals(daily_counts: pd.DataFrame) -> pd.DataFrame:
+    return (
+        daily_counts.groupby("Date", as_index=False)["new_cases"]
+        .sum()
+        .rename(columns={"new_cases": "global_new_cases"})
+    )
