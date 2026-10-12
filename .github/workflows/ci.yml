@@ -21,3 +21,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: ruff check .
       - run: pytest
+      - name: Smoke-test the pipeline against the fixture
+        env:
+          SOURCE_CSV: tests/fixtures/sample_covid.csv
+        run: python -m src.pipeline
