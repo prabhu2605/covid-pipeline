@@ -1,5 +1,8 @@
 import pytest
+
 from src.extract import extract
+
+
 def test_extract_reads_local_csv(tmp_path):
     csv = tmp_path / "covid.csv"
     csv.write_text(
